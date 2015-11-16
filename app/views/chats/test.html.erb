@@ -1,0 +1,80 @@
+<br/>
+TEST
+<br/>
+<%= Chat.find_by(id: 8).chatusers.map{|chat_user| chat_user.user_id } %>
+<br/>
+
+
+<br/>
+User
+<br/>
+<%= @test.inspect %>
+
+<br/>
+<br/>
+Chats
+<br/>
+<%= @test.chats.inspect %>
+
+<br/>
+<br/>
+Chat
+<br/>
+<%= @test.chats.first.chat.inspect %>
+
+<br/>
+<br/>
+Chat members (users)
+<br/>
+<%= Chat.find_by(id: 6).chatusers.inspect %>
+
+<br/>
+<br/>
+Full data of members of chat
+<br/>
+<% Chat.find_by(id: 6).chatusers.each do |chat_user| %> 
+<%= chat_user.user.messages.last.inspect %> 
+<% end %> 
+
+<br/>
+<br/>
+Chat users
+<br/>
+<%= Chat.find_by(id: 6).users.inspect %>
+
+<br/>
+<br/>
+Chat user for update unread msgs
+<br/>
+<%= Message.find_by(id: 1).chat.chatusers.where(user_id: current_user.id).inspect %>
+
+<br/>
+<br/>
+Chat owner
+<br/>
+<%= @test.chats.first.chat.owner.inspect %>
+<br/>
+Get chat by owner
+<br/>
+<%= User.find_by(id: 3).owning_chats.first.inspect %>
+
+
+
+<br/>
+<br/>
+Message from this user from this chat: <%= @test.chats.first.chat.inspect %>
+<br/>
+<%= @test.chats.first.chat.messages.first.inspect %>
+
+
+<br/>
+<br/>
+User by message
+<br/>
+<%= Message.find_by(id: 1).user.inspect %>
+
+<br/>
+<br/>
+User by message
+<br/>
+<%= Message.find_by(id: 1).user.inspect %>

@@ -1,0 +1,160 @@
+
+<% provide(:title, 'Chat ' + @chat.name) %>
+
+<h1>
+	<%= "Chat " + @chat.name %>
+</h1>
+
+<h3>
+	 <%= "Members of chat: " + @chat.members_names %>
+</h3>
+
+<h3>
+
+	<span id="num_unread_msgs">
+		<%= @num_unread_msgs %>
+	</span>
+
+	<%= " unread messages" %>
+
+</h3>
+
+<%= link_to "Edit chat", edit_chat_path(@chat) if current_user.id == @chat.user_id %>
+
+<div id="ext_tbl_chat">
+
+	<div class="chat">
+
+		<table border="0">
+
+
+		   <% @chat.messages.each do |message| %>
+
+			   <tr>
+
+			   	   <td id="name" valign="top" width="90px">
+			   	    	<%= link_to message.user.name_cptlz, user_path(message.user)%>
+			   	   </td>
+
+			   	   <td valign="top" width="833px">
+			   	    	<%= message.text%>
+			   	   </td>
+
+			   	   <td id="msg_dttm" valign="top" width="167px">
+			   	   		<%= message.created_at.strftime("%d %b %I:%M:%S") %>
+			   	   </td>
+
+			   </tr>
+
+		   	<% end %>
+
+
+		</table>
+
+    </div>
+
+	<%= form_for @message, url: chat_path(@chat.id) + '/create_message', remote: true do |f| %>
+
+    	<%= f.text_area :text, placeholder: "Type message", rows: 3 %>
+
+    	<%= f.submit "Send message", class: "btn btn-large btn-primary", id: "send_message" %>
+	
+	<% end %>
+
+</div>
+
+
+ <script type="text/javascript">
+
+ 	$(document).ready(function(){
+
+		chat_refresh_url = "<%= chat_path(@chat) + "/refresh/" %>"
+	 	current_user_name = "<%= current_user.name %>"
+	 	reset_unread_msgs_url = "<%= chat_path(@chat) + "/reset_unread_msgs" %>"
+
+ 		$(".chat").scrollTop($(".chat")[0].scrollHeight);		
+
+		$("#message_text").focus()
+
+		count_messages = $('.chat a').length;
+
+		function refresh(){
+			if($('.chat a').html())
+			{
+				$.ajax({
+				url: chat_refresh_url + count_messages, 
+				success: function(result){
+			        if(result)
+			        {
+
+			        	$(".chat table").append(result)
+			        	new_count_messages = $(".chat a").length
+
+			        	self_count_messages = $(result).find("#name:contains(current_user_name)").length
+
+
+						$('#num_unread_msgs').text(new_count_messages - count_messages - self_count_messages)
+						count_messages = new_count_messages
+
+
+
+						$('#last_message').fadeTo('slow', 1, function()
+						{
+						    $(this).css({'background-color': '#eeeeee'});
+						}).delay(300).fadeTo('slow', 1);
+
+						$('#last_message').css("background-color", "#337ab7");
+						
+						$('tr#last_message').removeAttr('id');
+
+						$('.chat').scrollTop($('.chat')[0].scrollHeight);	
+			        }
+			        else
+			        {
+			        	// alert("Something goes wrong");
+			        }
+		    	}});
+			}
+		}
+		setInterval(refresh, 1000)
+
+
+		$("#new_message").bind("ajax:complete", function(event,xhr,status){
+			$("#message_text").val('');
+		});
+
+		function reset_unread_msgs(){
+			if($('#num_unread_msgs').html())
+			{
+				$.ajax({
+				url: reset_unread_msgs_url, 
+				success: function(result){
+			        if(result)
+			        {
+			        	$('#num_unread_msgs').text("0")
+			        }
+			        else
+			        {
+			        	alert("Something goes wrong");
+			        }
+		    	}});
+	    	}			
+		}
+
+		if ($('#num_unread_msgs') != 0)
+		{
+			$(document).keypress(function(event){
+				reset_unread_msgs()
+				if ((event.keyCode == 10 || event.keyCode == 13) && event.ctrlKey)
+				{
+					$("#send_message").click()
+				}
+			});
+
+			$(document).mousemove(function(event){
+				reset_unread_msgs()
+			});			
+		}
+
+});
+ </script>

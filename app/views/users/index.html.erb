@@ -1,0 +1,14 @@
+<% provide(:title, 'MYCHAT users') %>
+<h1>MYCHAT users</h1>
+
+<%= will_paginate %>
+
+<ul class="users">
+  <% @users.each do |user| %>
+	<li>
+	  <%= link_to user.name.capitalize, user %>
+	</li>
+  <% end %>
+</ul>
+
+<%= will_paginate %>

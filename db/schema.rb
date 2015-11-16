@@ -11,7 +11,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150826131048) do
+ActiveRecord::Schema.define(version: 20150909121750) do
+
+  create_table "chats", force: true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "chats", ["user_id"], name: "index_chats_on_user_id"
+
+  create_table "chats_users", force: true do |t|
+    t.integer "chat_id"
+    t.integer "user_id"
+    t.integer "num_unread_msgs"
+  end
+
+  add_index "chats_users", ["chat_id", "user_id"], name: "index_chats_users_on_chat_id_and_user_id", unique: true
+
+  create_table "messages", force: true do |t|
+    t.integer  "chat_id"
+    t.integer  "user_id"
+    t.string   "text",       limit: 1000
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "messages", ["chat_id"], name: "index_messages_on_chat_id"
+  add_index "messages", ["user_id"], name: "index_messages_on_user_id"
 
   create_table "users", force: true do |t|
     t.string   "name"

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe User do
 
-	before { @user = User.new(name: "Example User", password: "123456",
+	before { @user = User.new(name: "Example User".downcase, password: "123456",
 		 			password_confirmation: "123456") }
 
 	subject { @user }

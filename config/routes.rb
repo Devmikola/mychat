@@ -1,7 +1,25 @@
 Rails.application.routes.draw do
+  get 'static_pages/home'
+
+  get 'static_pages/help'
+  
+  resources :chats
+  post '/chats/:id/create_message', to: 'chats#create_message'
+  post '/chats/:id/edit', to: 'chats#update', via: 'post', as: :edit_chat_post
+  match '/chats/new', to: 'chats#create', via: 'post', as: :new_chat_post
+  match '/chats/:id/refresh/:offset', to: 'chats#refresh', via: 'get'
+  match '/chats/:id/refresh_last/:message_id', to: 'chats#refresh_last', via: 'get'
+  match '/chats/:id/reset_unread_msgs', to: 'chats#reset_unread_msgs', via: 'get'
+
+  match '/test', to: 'chats#test', via: 'get'
   resources :users
-  root 'users#new'
+  resources :sessions, only: [:new, :create, :destroy]
+
+  root 'static_pages#home'
   match '/signup', to: 'users#new', via: 'get'
+  match '/signin', to: 'sessions#new', via: 'get'
+  match '/signout', to: 'sessions#destroy', via: 'delete'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
