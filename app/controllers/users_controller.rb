@@ -1,9 +1,10 @@
 class UsersController < ApplicationController
-  before_action :internal_facecontroll, only: [:new, :create]
+  before_action :internal_facecontrol, only: [:new, :create]
+  before_action :facecontrol, only: [:index, :show, :edit]
 
   def index
     @users = User.all
-    @users = User.paginate(page: params[:page])  
+    @users = User.paginate(page: params[:page], per_page: 5)
   end
   
   def show
@@ -11,13 +12,12 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = current_user
   end
 
   def update
-    if @user.update_attributes(user_params)
-      flash[:success] = "Profile updated"
-      redirect_to @user
+    if current_user.update_attributes(user_params)
+      flash[:success] = 'Profile updated'
+      redirect_to current_user
     else
       render 'edit'
     end
@@ -29,11 +29,10 @@ class UsersController < ApplicationController
   end
 
   def create
-    # user_params[:name].downcase!
   	@user = User.new(user_params)
   	if @user.save
       sign_in @user
-      flash[:success] = "Welcome to the MyChat !"
+      flash[:success] = 'Welcome to MyChat !'
   		redirect_to @user
   	else
   		render 'new'

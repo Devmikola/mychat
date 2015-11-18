@@ -1,62 +1,62 @@
 class Chat < ActiveRecord::Base
-	has_many :chatusers
-	has_many :full_chatusers, through: :chatusers, class_name: "User"
+    has_many :chatusers, dependent: :destroy
+    belongs_to :owner, foreign_key: :user_id, class_name: 'User'
+    has_many :messages, dependent: :destroy
 
-	belongs_to :owner, foreign_key: :user_id, class_name: "User"
+    validates :name, presence: true, uniqueness: { case_sensitive: false }
 
-	has_many :messages
-	has_many :users, through: :messages
+    after_validation { set_members }
 
-	validates :name, presence: true, uniqueness: { case_sensitive: false }
-
-	after_validation { set_members }
+    def owner?(user)
+      self.user_id == user.id
+    end
 
     def members=(members)
-  	   	@members = members
+        @members = members
     end
 
     def members
-    	@members = chatusers.map { |chat_user| chat_user.user_id }.join(" ") 
+      @members = chatusers.map { |chat_user| chat_user.user_id }.join(' ')
     end
 
-  	def members_transform(members, creator_id)
+    def members_transform(members, creator_id)
 
-	  	@members = members.split(" ").collect { |x| x.to_i }
-	  	@members.delete 0
+      @members = members.split(' ').collect { |x| x.to_i }
+      @members.delete 0
 
-	  	@members << creator_id unless @members.include? creator_id
-	  	
-	  	@unexists_users = Array.new
-	  	@chat_users = Array.new
+      @members << creator_id unless @members.include? creator_id
+
+      @unexists_users = Array.new
+      @chat_users = Array.new
 
 
-	  	@members.delete_if do |member_id|
+      @members.delete_if do |member_id|
 
-	  		if User.find_by id: member_id
-	  			@chat_users << member_id
-	  			false
-	  		else
-	  			@unexists_users << member_id
-	  			true
-	  		end
-	  	end
+        if User.find_by id: member_id
+          @chat_users << member_id
+          false
+        else
+          @unexists_users << member_id
+          true
+        end
+      end
 
-	  	@chat_users.uniq!	  	
-	  	@unexists_users.uniq!	  	
+      @chat_users.uniq!
+      @unexists_users.uniq!
 
-  	end
+    end
 
-  	def members_names
+    def members_names
 
-  		members_array = Array.new
+      members_array = Array.new
 
-    	chatusers.each do |chat_user|
-    		members_array << chat_user.user.name.capitalize
-    	end
+      chatusers.each do |chat_user|
+        members_array << chat_user.user.name.capitalize
+      end
 
-    	members_array.join(", ")
+      members_array.join(', ')
 
-  	end
+    end
 
 
   	private
@@ -64,15 +64,15 @@ class Chat < ActiveRecord::Base
 	  	def set_members
 
 	  		unless @unexists_users.empty?
-	  			errors.add(:members, 'can not contain unexists users:'  + @unexists_users.join(' ') )
+	  			errors.add(:members, 'can not contain unexists users: ' + @unexists_users.join(' ') )
 	  		end
     		
 	  		unless @chat_users.count >= 2
-  				errors.add(:members, "need contain at least 2 users")
+  				errors.add(:members, 'need contain at least 2 users')
   			end
 
-    		Rails.logger.debug "@MEMBERS:" + @members.inspect
-    		Rails.logger.debug "@CHATUSERS:" + @chat_users.inspect
+    		Rails.logger.debug '@MEMBERS:' + @members.inspect
+    		Rails.logger.debug '@CHATUSERS:' + @chat_users.inspect
 	  		
 
   			chatusers.each do |chat_user|

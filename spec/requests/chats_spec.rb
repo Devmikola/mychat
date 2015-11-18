@@ -52,7 +52,7 @@ describe "Chats" do
 			  click_button "Create chat"
 			end							
 
-		    let(:members_list) { [user.name_cptlz, first_member.name_cptlz, second_member.name_cptlz].join(", ") }
+		  let(:members_list) { [user.name_cptlz, first_member.name_cptlz, second_member.name_cptlz].join(", ") }
 
 			it { should have_content("Members of chat: #{members_list}") }
 
@@ -68,7 +68,7 @@ describe "Chats" do
         		end
 
         		describe "message incoming at index page" do
-    				let(:chat) { Chat.find_by(name: "Test_Chat") }
+    				let(:chat) { Chat.find_by name: "Test_Chat" }
 
         			before do 
         				Message.new(chat_id: chat.id, user_id: user.id, text: "Second Message").save
@@ -76,9 +76,9 @@ describe "Chats" do
         			end
         			
 					# find('#item_description').should have_content("laptop for 369")
-        			it { find('.tr_link#' + chat.id.to_s).expect have_content("Second Message") }
-        			it { find('.tr_link#' + chat.id.to_s).expect have_content("0") }
-        			it { find('.tr_link#' + chat.id.to_s).expect have_content(user.name_cptlz) }
+        			it { find('.tr_link#' + chat.id.to_s, text: "Second Message", exact: true) }
+        			it { find('.tr_link#' + chat.id.to_s, text: "0", exact: true) }
+        			it { find('.tr_link#' + chat.id.to_s, text: user.name_cptlz, exact: true) }
 
         		end
 

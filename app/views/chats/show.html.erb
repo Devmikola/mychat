@@ -1,66 +1,44 @@
+<% provide(:title, "Chat #{@chat.name}") %>
+<h1> <%= "Chat #{@chat.name}" %> </h1>
+<h3> <%= "Members of chat: #{@chat.members_names}" %> </h3>
+<h3> <span id="num_unread_msgs"> <%= @num_unread_msgs %> </span> <%= ' unread messages' %> </h3>
 
-<% provide(:title, 'Chat ' + @chat.name) %>
+<%
+    if @chat.chatusers.count == 2
+    confirm_message = 'This action will remove this chat.
+This is because you are one of only two members.
+All existing chat rooms must have at least two members.
+Are you sure you want to disconnect and remove this chat ?'
+    else
+    confirm_message = "Are you sure you want to disconnect from #{@chat.name} ?"
+    end
+%>
 
-<h1>
-	<%= "Chat " + @chat.name %>
-</h1>
-
-<h3>
-	 <%= "Members of chat: " + @chat.members_names %>
-</h3>
-
-<h3>
-
-	<span id="num_unread_msgs">
-		<%= @num_unread_msgs %>
-	</span>
-
-	<%= " unread messages" %>
-
-</h3>
-
-<%= link_to "Edit chat", edit_chat_path(@chat) if current_user.id == @chat.user_id %>
+<%= link_to 'Disconnect', self_disconnection_chat_path(@chat), data: { confirm: confirm_message } unless @chat.owner? current_user %>
+<%= link_to 'Edit chat', edit_chat_path(@chat) if @chat.owner? current_user %>
 
 <div id="ext_tbl_chat">
-
 	<div class="chat">
-
 		<table border="0">
-
-
 		   <% @chat.messages.each do |message| %>
-
 			   <tr>
-
 			   	   <td id="name" valign="top" width="90px">
 			   	    	<%= link_to message.user.name_cptlz, user_path(message.user)%>
 			   	   </td>
-
 			   	   <td valign="top" width="833px">
 			   	    	<%= message.text%>
 			   	   </td>
-
 			   	   <td id="msg_dttm" valign="top" width="167px">
-			   	   		<%= message.created_at.strftime("%d %b %I:%M:%S") %>
+			   	   		<%= message.created_at.strftime('%d %b %I:%M:%S') %>
 			   	   </td>
-
 			   </tr>
-
-		   	<% end %>
-
-
+		   <% end %>
 		</table>
-
     </div>
-
 	<%= form_for @message, url: chat_path(@chat.id) + '/create_message', remote: true do |f| %>
-
-    	<%= f.text_area :text, placeholder: "Type message", rows: 3 %>
-
-    	<%= f.submit "Send message", class: "btn btn-large btn-primary", id: "send_message" %>
-	
+    	<%= f.text_area :text, placeholder: 'Type message\nYou can send message with Ctrl + Enter', rows: 3 %>
+    	<%= f.submit 'Send message', class: 'btn btn-large btn-primary', id: 'send_message' %>
 	<% end %>
-
 </div>
 
 
@@ -68,15 +46,17 @@
 
  	$(document).ready(function(){
 
-		chat_refresh_url = "<%= chat_path(@chat) + "/refresh/" %>"
+        is_current_user_owner = <%= @chat.owner? current_user %>
+		chat_refresh_url = "<%= chat_path(@chat) + '/refresh/' %>"
 	 	current_user_name = "<%= current_user.name %>"
-	 	reset_unread_msgs_url = "<%= chat_path(@chat) + "/reset_unread_msgs" %>"
+	 	reset_unread_msgs_url = "<%= chat_path(@chat) + '/reset_unread_msgs' %>"
 
  		$(".chat").scrollTop($(".chat")[0].scrollHeight);		
 
 		$("#message_text").focus()
 
-		count_messages = $('.chat a').length;
+        count_messages = <%= @chat.messages.count %>
+//		count_messages = $('.chat a').length;
 
 		function refresh(){
 			if($('.chat a').html())
@@ -84,7 +64,22 @@
 				$.ajax({
 				url: chat_refresh_url + count_messages, 
 				success: function(result){
-			        if(result)
+			        if (result == 'disconnected')
+                    {
+                        alert('You are disconnected')
+                        document.location = '<%= chats_path %>'
+                    }
+                    else if (result == 'removed')
+                    {
+                        add_allert = ''
+                        if (is_current_user_owner)
+                        {
+                            add_allert = 'Last member of chat has left from the chat room.\n'
+                        }
+                        alert(add_allert + 'This chat room has been removed.\nRedirecting to active chats.')
+                        document.location = '<%= chats_path %>'
+                    }
+                    else if(result)
 			        {
 
 			        	$(".chat table").append(result)
@@ -116,6 +111,7 @@
 		    	}});
 			}
 		}
+
 		setInterval(refresh, 1000)
 
 

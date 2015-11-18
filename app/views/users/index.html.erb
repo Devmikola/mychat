@@ -1,12 +1,15 @@
-<% provide(:title, 'MYCHAT users') %>
-<h1>MYCHAT users</h1>
+<% provide(:title, 'All users') %>
+<h1>All users</h1>
 
 <%= will_paginate %>
 
 <ul class="users">
   <% @users.each do |user| %>
-	<li>
+	<li> <%= 'id: ' + user.id.to_s %>
 	  <%= link_to user.name.capitalize, user %>
+      <% if current_user.admin? && !current_user?(user) %>
+        <%= link_to 'delete', user, method: :delete, data: { confirm: 'Are you sure?' }, style: 'float: right; padding-right: 20px;' %>
+      <% end %>
 	</li>
   <% end %>
 </ul>

@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  before_action :internal_facecontroll, only: [:new, :create]
+  before_action :internal_facecontrol, only: [:new, :create]
 
   def new
   end

@@ -1,7 +1,8 @@
-<% provide(:title, 'Accessed Chats') %>
-<h1>Accessed Chats</h1>
-<%= link_to "Create new chat", new_chat_path, style: "float: right; margin: 0 40px 10px 0;" %>
+<% provide(:title, 'Active Chats') %>
+<h1>Active Chats</h1>
 
+<% unless @access_chats.empty? %>
+    <%= link_to "Create new chat", new_chat_path, style: "float: right; margin: 0 40px 10px 0;" %>
 	<table class="table_chats" valign="center" width="1100px" border="1" rules="rows">
 		<tr><td>Chat name</td><td>From</td><td>Last message</td><td>Number of unread messages</td><td></td></tr>
   		<% @access_chats.each do |access_chat| %>
@@ -20,73 +21,78 @@
 	  		 </tr>
 		<% end %>		
 	</table>
+    <script type="text/javascript">
 
-<script type="text/javascript">
-
-	$(document).ready(function(){
-		chats_ids = <%= @access_chats.map(&:chat_id) %>	
-
-
-		function refresh(){
-			chats_ids.forEach(function(chat_id){
-
-				if($(".tr_link#" + chat_id + " td.message_text").attr("id"))
-				{
-					$.ajax({
-					url: "chats/" + chat_id + "/refresh_last/" + $(".tr_link#" + chat_id + " td.message_text").attr("id"), 
-					success: function(result){
-				        if(!result.exit)
-				        {
-					        	$(".tr_link#" + chat_id + " td.message_text").attr("id", result.message_id)
-					        	$(".tr_link#" + chat_id + " td.message_text").html(result.message_text)
-					        	$(".tr_link#" + chat_id + " td.author_name").html(result.author_name)
-					        	$(".tr_link#" + chat_id + " td.num_unread_msgs").html(result.num_unread_msgs)
-					        	$(".tr_link#" + chat_id).fadeIn(100).fadeOut(100).fadeIn(100);
-				        }
-				        else
-				        {
-				        	// alert("In Else");
-				        }
-			    	}});
-				}
-			});			
-
-			
-		}
-
-		setInterval(refresh, 1000)
-
-		$("td").click(function(){
-			if($(this).attr("class") != "reset_unread_msgs")
-			{
-				window.location = "/chats/" + $(this).parent().attr("id")
-			}
-			else
-			{
-				reset_unread_msgs($(this).parent().attr("id"));
-			}
-		});
-
-		function reset_unread_msgs(chat_id){
-			if($('tr#' + chat_id + ' .num_unread_msgs').html())
-			{
-				$.ajax({
-				url: "/chats/" + chat_id + "/reset_unread_msgs", 
-				success: function(result){
-			        if(result)
-			        {
-			        	$('tr#' + chat_id + ' .num_unread_msgs').text("0")
-			        }
-			        else
-			        {
-			        	alert("Something goes wrong");
-			        }
-		    	}});
-	    	}			
-		}
+        $(document).ready(function(){
+            chats_ids = <%= @access_chats.map(&:chat_id) %>
 
 
+                    function refresh(){
+                        chats_ids.forEach(function(chat_id){
 
-	});	
-</script>
+                            if($(".tr_link#" + chat_id + " td.message_text").attr("id"))
+                            {
+                                $.ajax({
+                                    url: "chats/" + chat_id + "/refresh_last/" + $(".tr_link#" + chat_id + " td.message_text").attr("id"),
+                                    success: function(result){
+                                        if(!result.exit)
+                                        {
+                                            $(".tr_link#" + chat_id + " td.message_text").attr("id", result.message_id)
+                                            $(".tr_link#" + chat_id + " td.message_text").html(result.message_text)
+                                            $(".tr_link#" + chat_id + " td.author_name").html(result.author_name)
+                                            $(".tr_link#" + chat_id + " td.num_unread_msgs").html(result.num_unread_msgs)
+                                            $(".tr_link#" + chat_id).fadeIn(100).fadeOut(100).fadeIn(100);
+                                        }
+                                        else
+                                        {
+                                            // alert("In Else");
+                                        }
+                                    }});
+                            }
+                        });
+
+
+                    }
+
+            setInterval(refresh, 1000)
+
+            $("td").click(function(){
+                if($(this).attr("class") != "reset_unread_msgs")
+                {
+                    window.location = "/chats/" + $(this).parent().attr("id")
+                }
+                else
+                {
+                    reset_unread_msgs($(this).parent().attr("id"));
+                }
+            });
+
+            function reset_unread_msgs(chat_id){
+                if($('tr#' + chat_id + ' .num_unread_msgs').html())
+                {
+                    $.ajax({
+                        url: "/chats/" + chat_id + "/reset_unread_msgs",
+                        success: function(result){
+                            if(result)
+                            {
+                                $('tr#' + chat_id + ' .num_unread_msgs').text("0")
+                            }
+                            else
+                            {
+                                alert("Something goes wrong");
+                            }
+                        }});
+                }
+            }
+
+
+
+        });
+    </script>
+<% else %>
+    You have not any active chats.<br>
+    You can <%= link_to "create your own chat", new_chat_path %> and invite someone.<br>
+    Or ask someone to add you to conversation.
+<% end %>
+
 

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'static_pages/help'
   
   resources :chats
+  get '/chats/:id/self_disconnection', to: 'chats#self_disconnection', as: :self_disconnection_chat
   post '/chats/:id/create_message', to: 'chats#create_message'
   post '/chats/:id/edit', to: 'chats#update', via: 'post', as: :edit_chat_post
   match '/chats/new', to: 'chats#create', via: 'post', as: :new_chat_post
