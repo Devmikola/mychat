@@ -2,23 +2,26 @@ class ChatsController < ApplicationController
   before_action :facecontrol
   before_action :is_member?, only: [:show, :create_message] 
   before_action :get_chat, only: [:show, :edit, :update, :destroy, :self_disconnection]
-  before_action :foreign_disconnection, only: [:refresh, :reset_unread_msgs]
+  before_action :foreign_disconnection, only: [:refresh, :reset_unread_msgs, :refresh_last]
 
   def index
-    @access_chats = current_user.chats
+    @access_chats = current_user.chats.order(id: :desc).paginate(page: params[:page], per_page: 5)
+    @owning_chats = current_user.owning_chats.map &:id
+    @all_access_chats = Chatuser.where(user_id: current_user.id).map &:chat_id
   end
 
   def refresh_last
     last_message = Message.where(chat_id: params[:id]).last
+    access_chats = Chatuser.where(user_id: current_user.id).map &:chat_id
     if last_message && last_message.id != params[:message_id].to_i
       num_unread_msgs = Chatuser.find_by(chat_id: params[:id], user_id: current_user.id).num_unread_msgs
       respond_to do |format|
         format.json {render json: {exit: false, message_text: last_message.text, author_name: last_message.user.name,
-                                   message_id: last_message.id, num_unread_msgs: num_unread_msgs }}
+                                   message_id: last_message.id, num_unread_msgs: num_unread_msgs, refresh_chat_ids: access_chats }}
       end
     else
       respond_to do |format|
-        format.json {render json: {exit: true}} 
+        format.json {render json: {exit: true, refresh_chat_ids: access_chats}}
       end
     end      
   end
@@ -40,7 +43,13 @@ class ChatsController < ApplicationController
 
   def refresh
     @messages = Message.where(chat_id: params[:id]).offset(params[:offset])
-    render 'refresh', :layout => false if @messages && Chatuser.find_by(chat_id: params[:id], user_id: current_user.id)
+    if @messages && Chatuser.find_by(chat_id: params[:id], user_id: current_user.id)
+      render json: { html: render_to_string('refresh', layout: false),
+                     num_unread_msgs: current_user.chats.find_by(chat_id: params[:id]).num_unread_msgs,
+                     all_messages_count: @messages.count,
+                     read_messages_count: Chatuser.where(chat_id: params[:id]).minimum(:num_unread_msgs)
+      }
+    end
   end
 
   def reset_unread_msgs
@@ -131,6 +140,10 @@ class ChatsController < ApplicationController
     def foreign_disconnection
       render text: 'removed' and return unless Chat.find_by id: params[:id]
       render text: 'disconnected' and return unless Chatuser.find_by(chat_id: params[:id], user_id: current_user.id)
+    end
+
+    def foreign_connection
+      #render text: 'connected' and return if
     end
 
 

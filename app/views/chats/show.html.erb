@@ -22,7 +22,7 @@ Are you sure you want to disconnect and remove this chat ?'
 		<table border="0">
 		   <% @chat.messages.each do |message| %>
 			   <tr>
-			   	   <td id="name" valign="top" width="90px">
+			   	   <td valign="top" width="90px">
 			   	    	<%= link_to message.user.name_cptlz, user_path(message.user)%>
 			   	   </td>
 			   	   <td valign="top" width="833px">
@@ -36,7 +36,7 @@ Are you sure you want to disconnect and remove this chat ?'
 		</table>
     </div>
 	<%= form_for @message, url: chat_path(@chat.id) + '/create_message', remote: true do |f| %>
-    	<%= f.text_area :text, placeholder: 'Type message\nYou can send message with Ctrl + Enter', rows: 3 %>
+    	<%= f.text_area :text, placeholder: 'Type message. You can send message with Ctrl + Enter', rows: 3 %>
     	<%= f.submit 'Send message', class: 'btn btn-large btn-primary', id: 'send_message' %>
 	<% end %>
 </div>
@@ -59,63 +59,59 @@ Are you sure you want to disconnect and remove this chat ?'
 //		count_messages = $('.chat a').length;
 
 		function refresh(){
-			if($('.chat a').html())
-			{
-				$.ajax({
-				url: chat_refresh_url + count_messages, 
-				success: function(result){
-			        if (result == 'disconnected')
+            $.ajax({
+            url: chat_refresh_url + count_messages,
+            success: function(result){
+                if (result == 'disconnected')
+                {
+                    alert('You are disconnected.\nRedirecting to active chats.')
+                    document.location = '<%= chats_path %>'
+                }
+                else if (result == 'removed')
+                {
+                    add_allert = ''
+                    if (is_current_user_owner)
                     {
-                        alert('You are disconnected')
-                        document.location = '<%= chats_path %>'
+                        add_allert = 'Last member of chat has left from the chat room.\n'
                     }
-                    else if (result == 'removed')
+                    alert(add_allert + 'This chat room has been removed.\nRedirecting to active chats.')
+                    document.location = '<%= chats_path %>'
+                }
+                else if(result["html"])
+                {
+
+                    $(".chat table").append(result["html"])
+
+
+                    new_count_messages = result['all_messages_count']
+
+                    $('#num_unread_msgs').text(result['num_unread_msgs'])
+                    count_messages += new_count_messages
+
+
+
+                    $('.last_message').fadeTo('slow', 1, function()
                     {
-                        add_allert = ''
-                        if (is_current_user_owner)
-                        {
-                            add_allert = 'Last member of chat has left from the chat room.\n'
-                        }
-                        alert(add_allert + 'This chat room has been removed.\nRedirecting to active chats.')
-                        document.location = '<%= chats_path %>'
-                    }
-                    else if(result)
-			        {
+                        $(this).css({'background-color': '#eeeeee'});
+                    }).delay(300).fadeTo('slow', 1);
 
-			        	$(".chat table").append(result)
-			        	new_count_messages = $(".chat a").length
+                    $('.last_message').css("background-color", "#337ab7");
 
-			        	self_count_messages = $(result).find("#name:contains(current_user_name)").length
+                    $('tr.last_message').removeAttr('id');
 
-
-						$('#num_unread_msgs').text(new_count_messages - count_messages - self_count_messages)
-						count_messages = new_count_messages
-
-
-
-						$('#last_message').fadeTo('slow', 1, function()
-						{
-						    $(this).css({'background-color': '#eeeeee'});
-						}).delay(300).fadeTo('slow', 1);
-
-						$('#last_message').css("background-color", "#337ab7");
-						
-						$('tr#last_message').removeAttr('id');
-
-						$('.chat').scrollTop($('.chat')[0].scrollHeight);	
-			        }
-			        else
-			        {
-			        	// alert("Something goes wrong");
-			        }
-		    	}});
-			}
+                    $('.chat').scrollTop($('.chat')[0].scrollHeight);
+                }
+                else
+                {
+                    // alert("Something goes wrong");
+                }
+            }});
 		}
 
 		setInterval(refresh, 1000)
 
 
-		$("#new_message").bind("ajax:complete", function(event,xhr,status){
+		$("#new_message").bind("ajax:complete", function(event, xhr, status){
 			$("#message_text").val('');
 		});
 
