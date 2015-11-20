@@ -159,6 +159,7 @@ footer ul li {
 input, textarea, select, .uneditable-input {
   border: 1px solid #bbb;
   width: 100%;
+  display: block;
   margin-bottom: 15px;
   @include box_sizing;
 }
@@ -252,4 +253,9 @@ a.new_chat {
 .delete_chat {
   float: right;
   padding-right: 20px;
+}
+
+.bot_message {
+  text-align: center;
+  background-color: azure;
 }

@@ -1,6 +1,6 @@
 <% provide(:title, "Chat #{@chat.name}") %>
 <h1> <%= "Chat #{@chat.name}" %> </h1>
-<h3> <%= "Members of chat: #{@chat.members_names}" %> </h3>
+<h3 class="members_names"> <%= "Members of chat: #{@chat.members_names.join(', ')}" %> </h3>
 <h3> <span id="num_unread_msgs"> <%= @num_unread_msgs %> </span> <%= ' unread messages' %> </h3>
 
 <%
@@ -49,19 +49,46 @@ Are you sure you want to disconnect and remove this chat ?'
         is_current_user_owner = <%= @chat.owner? current_user %>
 		chat_refresh_url = "<%= chat_path(@chat) + '/refresh/' %>"
 	 	current_user_name = "<%= current_user.name %>"
-	 	reset_unread_msgs_url = "<%= chat_path(@chat) + '/reset_unread_msgs' %>"
+        members_names = <%= @chat.members_names.to_s.html_safe %>
+        reset_unread_msgs_url = "<%= chat_path(@chat) + '/reset_unread_msgs' %>"
+        count_messages = <%= @chat.messages.count %>
 
- 		$(".chat").scrollTop($(".chat")[0].scrollHeight);		
 
+ 		$(".chat").scrollTop($(".chat")[0].scrollHeight);
 		$("#message_text").focus()
 
-        count_messages = <%= @chat.messages.count %>
-//		count_messages = $('.chat a').length;
+        function array_include(f_array, s_array)
+        {
+            return f_array.length > s_array.length && f_array.every(function(element, index) {
+                return $.inArray(element, s_array[index])
+            });
+        }
+
+        Array.prototype.diff = function(a) {
+            return this.filter(function(i) {return a.indexOf(i) < 0;});
+        };
 
 		function refresh(){
             $.ajax({
             url: chat_refresh_url + count_messages,
             success: function(result){
+                if((new_members = result['refresh_members_names'].diff(members_names)) && new_members.length)
+                {
+                    for (i = 0; i < new_members.length; i++ ) {
+                        $(".chat table").append('<tr class="bot_message"><td></td><td>Member ' + new_members[i] + ' has joined to room chat</td><td></td></tr>')
+                        members_names.push(new_members[i])
+                    }
+                    $(".members_names").text('Members of chat: ' + result['refresh_members_names'].join(', '))
+                }
+                if((drop_members = members_names.diff(result['refresh_members_names'])) && drop_members.length)
+                {
+                    for (i = 0; i < drop_members.length; i++ ) {
+                        $(".chat table tbody").append('<tr class="bot_message"><td></td><td>Member ' + drop_members[i] + ' has disconnected from chat room</td><td></td></tr>')
+                        members_names.splice(members_names.indexOf(drop_members[i]), 1)
+                    }
+                    $(".members_names").text('Members of chat: ' + result['refresh_members_names'].join(', '))
+                }
+
                 if (result == 'disconnected')
                 {
                     alert('You are disconnected.\nRedirecting to active chats.')
@@ -79,16 +106,10 @@ Are you sure you want to disconnect and remove this chat ?'
                 }
                 else if(result["html"])
                 {
-
-                    $(".chat table").append(result["html"])
-
-
+                    $(".chat table tbody").append(result["html"])
                     new_count_messages = result['all_messages_count']
-
                     $('#num_unread_msgs').text(result['num_unread_msgs'])
                     count_messages += new_count_messages
-
-
 
                     $('.last_message').fadeTo('slow', 1, function()
                     {
@@ -96,15 +117,14 @@ Are you sure you want to disconnect and remove this chat ?'
                     }).delay(300).fadeTo('slow', 1);
 
                     $('.last_message').css("background-color", "#337ab7");
-
-                    $('tr.last_message').removeAttr('id');
-
-                    $('.chat').scrollTop($('.chat')[0].scrollHeight);
+                    $('tr.last_message').removeAttr('class');
                 }
                 else
                 {
                     // alert("Something goes wrong");
                 }
+
+                $('.chat').scrollTop($('.chat')[0].scrollHeight);
             }});
 		}
 

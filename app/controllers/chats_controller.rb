@@ -47,7 +47,8 @@ class ChatsController < ApplicationController
       render json: { html: render_to_string('refresh', layout: false),
                      num_unread_msgs: current_user.chats.find_by(chat_id: params[:id]).num_unread_msgs,
                      all_messages_count: @messages.count,
-                     read_messages_count: Chatuser.where(chat_id: params[:id]).minimum(:num_unread_msgs)
+                     read_messages_count: Chatuser.where(chat_id: params[:id]).minimum(:num_unread_msgs),
+                     refresh_members_names: Chat.find(params[:id]).members_names
       }
     end
   end

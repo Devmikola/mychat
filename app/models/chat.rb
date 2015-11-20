@@ -3,7 +3,7 @@ class Chat < ActiveRecord::Base
     belongs_to :owner, foreign_key: :user_id, class_name: 'User'
     has_many :messages, dependent: :destroy
 
-    validates :name, presence: true, uniqueness: { case_sensitive: false }
+    validates :name, presence: true, length: {maximum: 40}, uniqueness: { case_sensitive: false }
 
     after_validation { set_members }
 
@@ -47,17 +47,14 @@ class Chat < ActiveRecord::Base
     end
 
     def members_names
-
-      members_array = Array.new
-
-      chatusers.each do |chat_user|
-        members_array << chat_user.user.name.capitalize
-      end
-
-      members_array.join(', ')
-
+      @members_names ||= get_members
     end
 
+    def get_members
+      chatusers.inject(Array.new) do |list_names, chat_user|
+        list_names.push chat_user.user.name.capitalize
+      end
+    end
 
   	private
 
