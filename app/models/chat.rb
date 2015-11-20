@@ -64,7 +64,7 @@ class Chat < ActiveRecord::Base
 	  	def set_members
 
 	  		unless @unexists_users.empty?
-	  			errors.add(:members, 'can not contain unexists users: ' + @unexists_users.join(' ') )
+	  			errors.add(:members, 'can not contain users which not exist: ' + @unexists_users.join(' ') )
 	  		end
     		
 	  		unless @chat_users.count >= 2

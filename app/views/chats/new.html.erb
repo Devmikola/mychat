@@ -10,7 +10,7 @@
       <%= f.text_field :name %>
       <h4>Please, enter ids of members separated by a space.</h4>
       <%= f.label :members %>
-      <%= f.text_area :members, rows: 4, style: "resize: none" %>
+      <%= f.text_area :members, rows: 4, class: 'chat_members' %>
 
       <%= f.submit "Create chat", class: "btn btn-large btn-primary" %>
     <% end %>

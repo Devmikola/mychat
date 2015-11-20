@@ -19,16 +19,16 @@ Are you sure you want to disconnect and remove this chat ?'
 
 <div id="ext_tbl_chat">
 	<div class="chat">
-		<table border="0">
+		<table>
 		   <% @chat.messages.each do |message| %>
 			   <tr>
-			   	   <td valign="top" width="90px">
+			   	   <td class="author_name">
 			   	    	<%= link_to message.user.name_cptlz, user_path(message.user)%>
 			   	   </td>
-			   	   <td valign="top" width="833px">
+			   	   <td class="message_text">
 			   	    	<%= message.text%>
 			   	   </td>
-			   	   <td id="msg_dttm" valign="top" width="167px">
+			   	   <td class="msg_dttm">
 			   	   		<%= message.created_at.strftime('%d %b %I:%M:%S') %>
 			   	   </td>
 			   </tr>

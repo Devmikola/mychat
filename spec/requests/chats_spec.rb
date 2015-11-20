@@ -42,7 +42,7 @@ describe "Chats" do
 			  click_button "Create chat"
 			end			
 
-			it { should have_content('Members can not contain unexists users: 1000 14123') }
+			it { should have_content('Members can not contain users which not exist: 1000 14123') }
 		end
 
 		describe "send form with correct data" do

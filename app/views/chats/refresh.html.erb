@@ -1,7 +1,7 @@
 <% @messages.each do |message| %>
 	<tr class="last_message">
-	   <td valign="top" width="90px"><%= link_to message.user.name.capitalize, user_path(message.user)%></td>
-	   <td valign="top" width="833px"><%= message.text%></td>
-	   <td valign="top" width="167px" style="text-align: right; padding-right: 10px;"><%= message.created_at.strftime("%d %b %I:%M:%S") %></td>
+	   <td valign="top"class="author_name"><%= link_to message.user.name.capitalize, user_path(message.user)%></td>
+	   <td valign="top" class="message_text"><%= message.text%></td>
+	   <td valign="top" class="msg_dttm" ><%= message.created_at.strftime("%d %b %I:%M:%S") %></td>
 	</tr>
 <% end %>

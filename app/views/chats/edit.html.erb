@@ -13,7 +13,7 @@
       <%= f.text_field :name %>
 
       <%= f.label :members %>
-      <%= f.text_area :members, rows: 4, style: "resize: none" %>
+      <%= f.text_area :members, rows: 4, class: 'chat_members' %>
 
       <%= f.submit "Update chat", class: "btn btn-large btn-primary" %>
     <% end %>
