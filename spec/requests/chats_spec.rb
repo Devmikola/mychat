@@ -52,9 +52,13 @@ describe "Chats" do
 			  click_button "Create chat"
 			end							
 
-		  let(:members_list) { [user.name_cptlz, first_member.name_cptlz, second_member.name_cptlz].join(", ") }
+		  let(:members_list) { [user.name_cptlz, first_member.name_cptlz, second_member.name_cptlz] }
 
-			it { should have_content("Members of chat: #{members_list}") }
+			it do
+        members_list.each do |member|
+          find('.members_names', text: member, exact: true)
+        end
+      end
 
 			
 			describe "changes at show page" do
