@@ -1,6 +1,9 @@
 <% provide(:title, "Chat #{@chat.name}") %>
 <h1> <%= "Chat #{@chat.name}" %> </h1>
-<h3 class="members_names"> <%= "Members of chat: #{@chat.members_names.join(', ')}" %> </h3>
+<h3 class="members_names">
+  <%= 'Members of chat: ' %>
+  <%= render 'chats/members_list', members: @members %>
+</h3>
 <h3> <span id="num_unread_msgs"> <%= @num_unread_msgs %> </span> <%= ' unread messages' %> </h3>
 
 <%
@@ -75,19 +78,18 @@ Are you sure you want to disconnect and remove this chat ?'
                 if((new_members = result['refresh_members_names'].diff(members_names)) && new_members.length)
                 {
                     for (i = 0; i < new_members.length; i++ ) {
-                        $(".chat table").append('<tr class="bot_message"><td></td><td>Member ' + new_members[i] + ' has joined to room chat</td><td></td></tr>')
+                        $(".chat table").append('<tr class="bot_message"><td></td><td>Member ' + new_members[i] + ' was added to room chat</td><td></td></tr>')
                         members_names.push(new_members[i])
                     }
-                    $(".members_names").text('Members of chat: ' + result['refresh_members_names'].join(', '))
                 }
                 if((drop_members = members_names.diff(result['refresh_members_names'])) && drop_members.length)
                 {
                     for (i = 0; i < drop_members.length; i++ ) {
-                        $(".chat table tbody").append('<tr class="bot_message"><td></td><td>Member ' + drop_members[i] + ' has disconnected from chat room</td><td></td></tr>')
+                        $(".chat table tbody").append('<tr class="bot_message"><td></td><td>Member ' + drop_members[i] + ' was disconnected from chat room</td><td></td></tr>')
                         members_names.splice(members_names.indexOf(drop_members[i]), 1)
                     }
-                    $(".members_names").text('Members of chat: ' + result['refresh_members_names'].join(', '))
                 }
+                $(".members_names").html('Members of chat: ' + result['members_list'])
 
                 if (result == 'disconnected')
                 {

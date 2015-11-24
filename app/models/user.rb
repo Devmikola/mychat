@@ -17,8 +17,15 @@ class User < ActiveRecord::Base
 
   has_secure_password
 
+  scope :at_users,  ->(user_ids) { where("id in (?)", user_ids)}
+  scope :online, -> { where("last_seen between :start_dttm and :end_dttm", {start_dttm: DateTime.now - 1.minute, end_dttm: DateTime.now} ) }
+
   def name_cptlz
     self[:name].capitalize
+  end
+
+  def online?
+    self.last_seen && Time.now - self.last_seen < 60 ? true : false
   end
 
   def User.new_remember_token

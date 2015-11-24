@@ -3,7 +3,12 @@ module SessionsHelper
   def sign_in(user)
     remember_token = User.new_remember_token
     cookies.permanent[:remember_token] = remember_token
+    #user.remember_token = User.encrypt(remember_token)
+    #user.last_seen = Time.now
+    #user.save
     user.update_attribute(:remember_token, User.encrypt(remember_token))
+    user.update_attribute(:last_seen, DateTime.now)
+    #user.assign_attributes(remember_token: User.encrypt(remember_token), last_seen: Time.now)
     self.current_user = user
   end
 
@@ -16,8 +21,13 @@ module SessionsHelper
   end
 
   def current_user
-    remember_token = User.encrypt(cookies[:remember_token])
-    @current_user ||= User.find_by(remember_token: remember_token)
+    @current_user ||= User.find_by(remember_token: User.encrypt(cookies[:remember_token]))
+
+    if !@current_user.nil? && !@current_user.last_seen.nil? && Time.now - @current_user.last_seen > 59.seconds
+      @current_user.update_attribute :last_seen, Time.now()
+    end
+
+    @current_user
   end
 
   def current_user?(user)

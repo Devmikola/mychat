@@ -4,6 +4,8 @@ class ChatsController < ApplicationController
   before_action :get_chat, only: [:show, :edit, :update, :destroy, :self_disconnection]
   before_action :foreign_disconnection, only: [:refresh, :reset_unread_msgs, :refresh_last]
 
+  include ChatsHelper
+
   def index
     @access_chats = current_user.chats.order(id: :desc).paginate(page: params[:page], per_page: 5)
     @owning_chats = current_user.owning_chats.map &:id
@@ -32,6 +34,7 @@ class ChatsController < ApplicationController
     	#@chat = Chat.find_by(id: params[:id])
       @num_unread_msgs = @chat.chatusers.where(user_id: current_user.id).first.num_unread_msgs.to_s
       @message = Message.new
+      @members = members_list(params[:id])
       unless @chat
         redirect_to root_path
       end
@@ -48,7 +51,8 @@ class ChatsController < ApplicationController
                      num_unread_msgs: current_user.chats.find_by(chat_id: params[:id]).num_unread_msgs,
                      all_messages_count: @messages.count,
                      read_messages_count: Chatuser.where(chat_id: params[:id]).minimum(:num_unread_msgs),
-                     refresh_members_names: Chat.find(params[:id]).members_names
+                     refresh_members_names: Chat.find(params[:id]).members_names,
+                     members_list: render_to_string(partial: 'members_list', locals: {members: members_list(params[:id])})
       }
     end
   end
@@ -124,7 +128,6 @@ class ChatsController < ApplicationController
     # @user.chats.first.chat.messages.first.update(user_id: @user.id, text: "hello, this is my message")
     # @user.chats.first.chat.update(user_id: 3)
     @test = @user
-
   end
 
   private

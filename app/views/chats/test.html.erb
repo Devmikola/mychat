@@ -1,7 +1,7 @@
 <br/>
 TEST
 <br/>
-<%= Chat.find_by(id: 8).chatusers.map{|chat_user| chat_user.user_id } %>
+<%= Chat.find_by(id: 6).chatusers.map{|chat_user| chat_user.user_id } %>
 <br/>
 
 
@@ -12,9 +12,16 @@ User
 
 <br/>
 <br/>
+TEST 23.11.2015
+<br/>
+<%= session.inspect %>
+<br/>
+
+<br/>
+<br/>
 Chats
 <br/>
-<%= @test.chats.inspect %>
+<%= @user.chats.inspect %>
 
 <br/>
 <br/>
@@ -40,7 +47,7 @@ Full data of members of chat
 <br/>
 Chat users
 <br/>
-<%= Chat.find_by(id: 6).users.inspect %>
+<%= Chat.find_by(id: 6).chatusers.inspect %>
 
 <br/>
 <br/>
