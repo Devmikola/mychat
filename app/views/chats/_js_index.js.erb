@@ -1,0 +1,96 @@
+$(document).ready(function(){
+
+    chats_owner = <%= @owning_chats %> // ids of chats who owner is current user
+    chats_ids = <%= @access_chats.map(&:chat_id) %> // ids of accessed chats which listed at opened page
+    all_chats_ids = <%= @all_access_chats %> // ids of all accessed chats
+
+    function array_include(f_array, s_array)
+    {
+        return f_array.length > s_array.length && f_array.every(function(element, index) {
+            return $.inArray(element, s_array[index])
+        });
+    }
+
+    function refresh(){
+        chats_ids.forEach(function(chat_id){
+            if($(".tr_link#" + chat_id + " td.message_text").attr("id"))
+            {
+                $.ajax({
+                    url: "chats/" + chat_id + "/refresh_last/" + $(".tr_link#" + chat_id + " td.message_text").attr("id"),
+                    success: function(result){
+                        if(result['refresh_chat_ids'] && array_include(result['refresh_chat_ids'], all_chats_ids))
+                        {
+                            alert('You are connected to new chat room.')
+                            all_chats_ids = result['refresh_chat_ids']
+                            document.location = '<%= chats_path %>'
+                        }
+                        else if (result == 'disconnected')
+                        {
+                            chat_name = $(".tr_link#" + chat_id + " td.chat_name").html()
+                            alert('You are disconnected from chat room ' + chat_name)
+                            document.location = '<%= chats_path %>'
+                        }
+                        else if (result == 'removed')
+                        {
+                            add_allert = ''
+                            chat_name = $(".tr_link#" + chat_id + " td.chat_name").html()
+                            if ($.inArray(chat_id, chats_owner))
+                            {
+                                add_allert = 'We are very sorry. Last member of chat ' + chat_name + ' has left from the chat room.\n';
+                            }
+                            alert(add_allert + 'Chat room ' + chat_name + ' has been removed.\nRedirecting to active chats.')
+                            document.location = '<%= chats_path %>'
+                        }
+                        else if(!result.exit)
+                        {
+                            $(".tr_link#" + chat_id + " td.message_text").attr("id", result.message_id)
+                            $(".tr_link#" + chat_id + " td.message_text").html(result.message_text)
+                            $(".tr_link#" + chat_id + " td.author_name").html(result.author_name)
+                            $(".tr_link#" + chat_id + " td.num_unread_msgs").html(result.num_unread_msgs)
+                            $(".tr_link#" + chat_id).fadeIn(100).fadeOut(100).fadeIn(100);
+                        }
+                        else
+                        {
+                            // alert("In Else");
+                        }
+                    }});
+            }
+        });
+
+
+    }
+
+    if($(".table_chats"))
+    {
+        setInterval(refresh, 1000)
+    }
+
+    $("td").click(function(){
+        if($(this).attr("class") != "reset_unread_msgs")
+        {
+            window.location = "/chats/" + $(this).parent().attr("id")
+        }
+        else
+        {
+            reset_unread_msgs($(this).parent().attr("id"));
+        }
+    });
+
+    function reset_unread_msgs(chat_id){
+        if($('tr#' + chat_id + ' .num_unread_msgs').html())
+        {
+            $.ajax({
+                url: "/chats/" + chat_id + "/reset_unread_msgs",
+                success: function(result){
+                    if(result)
+                    {
+                        $('tr#' + chat_id + ' .num_unread_msgs').text("0")
+                    }
+                    else
+                    {
+                        alert("Something goes wrong");
+                    }
+                }});
+        }
+    }
+});

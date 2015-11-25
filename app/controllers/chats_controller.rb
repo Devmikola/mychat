@@ -67,7 +67,7 @@ class ChatsController < ApplicationController
   def create_message
     @message = Message.new(chat_id: params[:id], user_id: current_user.id, text: params[:message][:text])
     @message.chat.chatusers.where(user_id: current_user.id).update_all(num_unread_msgs: 0)
-    #@message.chat.chatusers.where("user_id != ?", current_user.id).update_all("num_unread_msgs = num_unread_msgs + 1")
+    @message.chat.chatusers.where("user_id != ?", current_user.id).update_all("num_unread_msgs = num_unread_msgs + 1")
     @message.save
     render nothing: true
   end
