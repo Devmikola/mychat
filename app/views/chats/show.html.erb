@@ -26,7 +26,7 @@ Are you sure you want to disconnect and remove this chat ?'
 <div id="ext_tbl_chat">
 	<div class="chat">
 		<table>
-		   <% @chat.messages.each do |message| %>
+		   <% @chat.messages.order(id: :asc).each do |message| %>
 			   <tr>
 			   	   <td class="author_name">
 			   	    	<%= link_to message.user.name_cptlz, user_path(message.user)%>

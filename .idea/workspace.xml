@@ -2,20 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="405db7fb-ecb9-4d7d-8e2c-d662a557d436" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/chats/_js_index.js.erb" afterPath="$PROJECT_DIR$/app/views/chats/_js_index.js.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/chats/_js_show.js.erb" afterPath="$PROJECT_DIR$/app/views/chats/_js_show.js.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/helpers/application_helper.rb" afterPath="$PROJECT_DIR$/app/helpers/application_helper.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/chat.rb" afterPath="$PROJECT_DIR$/app/models/chat.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/chats_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/chats_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss" afterPath="$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/chats/edit.html.erb" afterPath="$PROJECT_DIR$/app/views/chats/edit.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/chats/index.html.erb" afterPath="$PROJECT_DIR$/app/views/chats/index.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/environments/production.rb" afterPath="$PROJECT_DIR$/config/environments/production.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/chats/show.html.erb" afterPath="$PROJECT_DIR$/app/views/chats/show.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/users/show.html.erb" afterPath="$PROJECT_DIR$/app/views/users/show.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/user.rb" afterPath="$PROJECT_DIR$/app/models/user.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/users_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/users_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="mychat.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -43,10 +30,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="chats_controller.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/chats_controller.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="36" column="24" selection-start="1642" selection-end="1642" vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="2720">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="production.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config/environments/production.rb">
           <provider selected="true" editor-type-id="text-editor">
             <state line="48" column="27" selection-start="2101" selection-end="2101" vertical-scroll-proportion="-12.423077" vertical-offset="493" max-vertical-offset="1445">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="show.html.erb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/views/chats/show.html.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="28" column="43" selection-start="1056" selection-end="1056" vertical-scroll-proportion="0.4821634" vertical-offset="57" max-vertical-offset="952">
               <folding />
             </state>
           </provider>
@@ -61,10 +66,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="test.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config/environments/test.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="0" selection-start="1247" selection-end="1247" vertical-scroll-proportion="0.51284915" vertical-offset="0" max-vertical-offset="895">
+            <state line="27" column="0" selection-start="1247" selection-end="1247" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="816">
               <folding />
             </state>
           </provider>
@@ -109,7 +114,6 @@
         <option value="$PROJECT_DIR$/app/models/chat.rb" />
         <option value="$PROJECT_DIR$/app/models/user.rb" />
         <option value="$PROJECT_DIR$/app/views/chats/_js_show.js.erb" />
-        <option value="$PROJECT_DIR$/app/views/chats/show.html.erb" />
         <option value="$PROJECT_DIR$/app/views/chats/edit.html.erb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss" />
         <option value="$PROJECT_DIR$/app/views/chats/index.html.erb" />
@@ -119,6 +123,7 @@
         <option value="$PROJECT_DIR$/app/helpers/application_helper.rb" />
         <option value="$PROJECT_DIR$/app/views/users/show.html.erb" />
         <option value="$PROJECT_DIR$/config/environments/production.rb" />
+        <option value="$PROJECT_DIR$/app/views/chats/show.html.erb" />
       </list>
     </option>
   </component>
@@ -982,7 +987,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/helpers/chats_helper.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="7" selection-start="212" selection-end="212" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221" />
+        <state line="4" column="7" selection-start="212" selection-end="212" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/layouts/_shim.html.erb">
@@ -1090,13 +1097,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/chats/show.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="75" selection-start="1610" selection-end="1610" vertical-scroll-proportion="-12.134615" vertical-offset="117" max-vertical-offset="952">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/chats/refresh.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="2" column="71" selection-start="129" selection-end="129" vertical-scroll-proportion="0.04009434" vertical-offset="0" max-vertical-offset="848">
@@ -1121,13 +1121,6 @@
     <entry file="file://$PROJECT_DIR$/app/views/chats/edit.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="21" column="13" selection-start="791" selection-end="791" vertical-scroll-proportion="-13.730769" vertical-offset="0" max-vertical-offset="459">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/chats_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="8" selection-start="1728" selection-end="1728" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2720">
           <folding />
         </state>
       </provider>
@@ -1288,7 +1281,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/config/environments/test.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="0" selection-start="1247" selection-end="1247" vertical-scroll-proportion="0.51284915" vertical-offset="0" max-vertical-offset="895">
+        <state line="27" column="0" selection-start="1247" selection-end="1247" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="816">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/chats_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="24" selection-start="1642" selection-end="1642" vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="2720">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/chats/show.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="43" selection-start="1056" selection-end="1056" vertical-scroll-proportion="0.4821634" vertical-offset="57" max-vertical-offset="952">
           <folding />
         </state>
       </provider>
