@@ -16,7 +16,7 @@ class Chat < ActiveRecord::Base
     end
 
     def members
-      @members = chatusers.map { |chat_user| chat_user.user_id }.join(' ')
+      @members = chatusers.order(user_id: :asc).map { |chat_user| chat_user.user_id }.join(' ')
     end
 
     def members_transform(members, creator_id)

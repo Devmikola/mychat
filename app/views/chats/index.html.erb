@@ -4,8 +4,8 @@
 <% unless @access_chats.empty? %>
 
     <%= will_paginate @access_chats %>
-    <%= link_to "Create new chat", new_chat_path, class: 'new_chat' %>
 
+    <%= link_to "Create new chat", new_chat_path, class: 'new_chat' %>
 	<table class="table_chats" valign="center" width="1100px" border="1" rules="rows">
 		<tr><td>Chat name</td><td>From</td><td>Last message</td><td>Number of unread messages</td><td></td></tr>
   		<% @access_chats.each do |access_chat| %>
@@ -16,7 +16,7 @@
 	  		<% tr_link = '<tr class="tr_link" id="' + access_chat.chat_id.to_s + '">' %>
 	  		<%= tr_link.html_safe %>
 	  		 	<%= content_tag :td, access_chat.chat.name, class: 'chat_name' %>
-	  		 	<%= content_tag :td, message ? message.user.name_cptlz : "-", class: 'author_name'%>
+	  		 	<%= content_tag :td, message ? message.user.name_cptlz : "", class: 'author_name'%>
 	  		 	<%= content_tag :td, message ? message.text_for_index : "No messages yet", class: "message_text", id: message ? message.id : 0 %>
 	 	
 	  		 	<%= content_tag :td, access_chat.num_unread_msgs.to_i.to_s, class: 'num_unread_msgs'%>

@@ -3,8 +3,7 @@ class UsersController < ApplicationController
   before_action :facecontrol, only: [:index, :show, :edit]
 
   def index
-    @users = User.all
-    @users = User.paginate(page: params[:page], per_page: 5)
+    @users = User.order(id: :asc).paginate(page: params[:page], per_page: 5)
   end
   
   def show
@@ -32,7 +31,7 @@ class UsersController < ApplicationController
   	@user = User.new(user_params)
   	if @user.save
       sign_in @user
-      flash[:success] = 'Welcome to MyChat !'
+      flash[:success] = 'Welcome to Extensive Chats !'
   		redirect_to @user
   	else
   		render 'new'

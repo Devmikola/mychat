@@ -1,6 +1,6 @@
 <% provide(:title, 'Edit chat: ' + @chat.name) %>
 <h1>Edit chat: <%= @chat.name %></h1>
-<%= link_to 'Delete chat', chat_path(@chat), method: :delete, data: { confirm: 'Are you sure?' } %>
+<%= link_to 'Delete chat', chat_path(@chat), method: :delete, data: { confirm: 'Are you sure you want to delete this chat room ?' } %>
 <br>
 <br>
 

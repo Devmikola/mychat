@@ -27,7 +27,7 @@ $(document).ready(function(){
                         else if (result == 'disconnected')
                         {
                             chat_name = $(".tr_link#" + chat_id + " td.chat_name").html()
-                            alert('You are disconnected from chat room ' + chat_name)
+                            alert('You are disconnected from the chat room ' + chat_name)
                             document.location = '<%= chats_path %>'
                         }
                         else if (result == 'removed')

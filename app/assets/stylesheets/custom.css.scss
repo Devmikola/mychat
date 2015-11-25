@@ -16,6 +16,8 @@ html {
 body {
   padding-top: 60px;
   height: 100%;
+  background-color: lemonchiffon;
+  font-weight: bold;
 }
 
 .setup_nav {
@@ -45,6 +47,11 @@ textarea {
   margin-right: 10px;
 }
 
+.table_chats {
+  border: 5px solid;
+  background-color: darkgrey;
+}
+
 .table_chats td {
   padding: 5px;
 }
@@ -59,7 +66,7 @@ td.reset_unread_msgs{
 
 td.reset_unread_msgs:hover{
   background-color: green;
-  width: 200px;
+  width: 195px;
 }
 
 .tr_link:hover {
@@ -101,6 +108,7 @@ textarea#message_text {
 }
 
 #send_message {
+  display: none;
   border-radius: 0;
 }
 
@@ -108,12 +116,11 @@ textarea#message_text {
 
 #logo {
   float: left;
-  margin-right: 10px;
   font-size: 1.7em;
   color: #fff;
   text-decoration: underline !important;
   letter-spacing: -1px;
-  margin: 10px 0;
+  margin: 14px 0;
   font-weight: bold;
   line-height: 1;
 }
@@ -212,7 +219,7 @@ input {
 }
 
 a.new_chat {
-  float: right;
+  display: block;
   margin: 0 40px 10px 0;
 }
 
@@ -258,4 +265,13 @@ a.new_chat {
 .bot_message {
   text-align: center;
   background-color: azure;
+}
+
+.navbar-inner{
+  background-color: tan;
+  font-weight: bold;
+}
+
+.chat table {
+  width: 100%
 }

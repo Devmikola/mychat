@@ -30,7 +30,6 @@ class User < ActiveRecord::Base
 
   def User.new_remember_token
     SecureRandom.urlsafe_base64
-   # vasya = User.create name: 'vasya', password: '123456', password_confirmation: '123456'
   end
 
   def User.encrypt(token)

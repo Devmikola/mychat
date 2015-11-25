@@ -18,7 +18,7 @@ class ChatsController < ApplicationController
     if last_message && last_message.id != params[:message_id].to_i
       num_unread_msgs = Chatuser.find_by(chat_id: params[:id], user_id: current_user.id).num_unread_msgs
       respond_to do |format|
-        format.json {render json: {exit: false, message_text: last_message.text, author_name: last_message.user.name,
+        format.json {render json: {exit: false, message_text: last_message.text, author_name: last_message.user.name_cptlz,
                                    message_id: last_message.id, num_unread_msgs: num_unread_msgs, refresh_chat_ids: access_chats }}
       end
     else
@@ -45,7 +45,7 @@ class ChatsController < ApplicationController
 
 
   def refresh
-    @messages = Message.where(chat_id: params[:id]).offset(params[:offset])
+    @messages = Message.where(chat_id: params[:id]).order(id: :asc).offset(params[:offset])
     if @messages && Chatuser.find_by(chat_id: params[:id], user_id: current_user.id)
       render json: { html: render_to_string('refresh', layout: false),
                      num_unread_msgs: current_user.chats.find_by(chat_id: params[:id]).num_unread_msgs,
