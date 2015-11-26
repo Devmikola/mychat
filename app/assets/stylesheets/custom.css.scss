@@ -16,7 +16,7 @@ html {
 body {
   padding-top: 60px;
   height: 100%;
-  background-color: lemonchiffon;
+  background-color: aliceblue;
   font-weight: bold;
 }
 
@@ -38,7 +38,7 @@ textarea {
 
 .chat {
   background-color: #eeeeee;
-  height: 500px; 
+  height: 85%;
   overflow-y: scroll;
 }
 
@@ -48,8 +48,7 @@ textarea {
 }
 
 .table_chats {
-  border: 5px solid;
-  background-color: darkgrey;
+  border: 2px solid;
 }
 
 .table_chats td {
@@ -65,12 +64,12 @@ td.reset_unread_msgs{
 }
 
 td.reset_unread_msgs:hover{
-  background-color: green;
-  width: 195px;
+  background-color: dodgerblue;
+  width: 198px;
 }
 
 .tr_link:hover {
-  background-color: #337ab7;
+  background-color: lightskyblue;
   cursor: pointer;
 }
 
@@ -91,24 +90,24 @@ a {
   position: relative; 
   width: 1100px;
   border: solid 1px black;
+  height: 70%;
 }
 
 
 #new_message {
-  margin-top: 2px; 
-  bottom: 0; 
+  bottom: 0;
   width: 100%;
+  height: 15%;
 }
 
 textarea#message_text {
   margin-bottom: 0px; 
   padding-left: 5px; 
   font-size: 19px;
-
+  height: 100%;
 }
 
 #send_message {
-  display: none;
   border-radius: 0;
 }
 
@@ -268,10 +267,22 @@ a.new_chat {
 }
 
 .navbar-inner{
-  background-color: tan;
+  background-color: #7CBDBF;
   font-weight: bold;
 }
 
 .chat table {
   width: 100%
+}
+
+.members_names img {
+  margin-left: 8px;
+}
+
+.display_none {
+  display: none;
+}
+
+h1 {
+  margin-top: 10px;
 }

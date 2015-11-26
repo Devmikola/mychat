@@ -30,6 +30,22 @@ $(document).ready(function(){
         $.ajax({
             url: chat_refresh_url + count_messages,
             success: function(result){
+                if (result == 'disconnected')
+                {
+                    alert('You are disconnected.\nRedirecting to active chats.')
+                    return document.location = '<%= chats_path %>'
+                }
+                else if (result == 'removed')
+                {
+                    add_allert = ''
+                    if (is_current_user_owner)
+                    {
+                        add_allert = 'Last member of chat has left from the chat room.\n'
+                    }
+                    alert(add_allert + 'This chat room has been removed.\nRedirecting to active chats.')
+                    return document.location = '<%= chats_path %>'
+                }
+
                 scroll_down = false
                 if((new_members = result['refresh_members_names'].diff(members_names)) && new_members.length)
                 {
@@ -49,22 +65,8 @@ $(document).ready(function(){
                 }
                 $(".members_names").html('Members of chat: ' + result['members_list'])
 
-                if (result == 'disconnected')
-                {
-                    alert('You are disconnected.\nRedirecting to active chats.')
-                    document.location = '<%= chats_path %>'
-                }
-                else if (result == 'removed')
-                {
-                    add_allert = ''
-                    if (is_current_user_owner)
-                    {
-                        add_allert = 'Last member of chat has left from the chat room.\n'
-                    }
-                    alert(add_allert + 'This chat room has been removed.\nRedirecting to active chats.')
-                    document.location = '<%= chats_path %>'
-                }
-                else if(result["html"])
+
+                if(result["html"])
                 {
                     $(".chat table").append(result["html"])
                     new_count_messages = result['all_messages_count']

@@ -15,7 +15,11 @@ module SessionsHelper
   def signed_in?
     !current_user.nil?
   end
-  
+
+  def mobile?
+    request.user_agent =~ /Mobile|webOS/
+  end
+
   def current_user=(user)
     @current_user = user
   end

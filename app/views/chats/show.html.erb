@@ -42,8 +42,11 @@ Are you sure you want to disconnect and remove this chat ?'
 		</table>
     </div>
 	<%= form_for @message, url: chat_path(@chat.id) + '/create_message', remote: true do |f| %>
-    	<%= f.text_area :text, placeholder: 'Type message. To send message, use Ctrl + Enter.', rows: 3 %>
-    	<%= f.submit 'Send message', class: 'btn btn-large btn-primary', id: 'send_message' %>
+      <% mobile? ? display = '' : display = 'display_none' %>
+      <div style="height: 100%;">
+          <%= f.text_area :text, placeholder: 'Type message. To send message, use Ctrl + Enter.', rows: 3 %>
+          <%= f.submit 'Send message', class: "btn btn-large btn-primary #{display}", id: 'send_message' %>
+      </div>
 	<% end %>
 </div>
 <script>
