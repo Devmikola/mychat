@@ -2,38 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="405db7fb-ecb9-4d7d-8e2c-d662a557d436" name="Default" comment="">
-      <change type="DELETED" beforePath="D:\rails_projects\mychat\app\views\chats\test.html.erb" afterPath="" />
-      <change type="DELETED" beforePath="D:\rails_projects\mychat\app\views\chats\test_user.html.erb" afterPath="" />
-      <change type="DELETED" beforePath="D:\rails_projects\mychat\app\views\static_pages\help.html.erb" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/shared/_error_messages.html.erb" afterPath="$PROJECT_DIR$/app/views/shared/_error_messages.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/layouts/_footer.html.erb" afterPath="$PROJECT_DIR$/app/views/layouts/_footer.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/layouts/_header.html.erb" afterPath="$PROJECT_DIR$/app/views/layouts/_header.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/chats/_js_index.js.erb" afterPath="$PROJECT_DIR$/app/views/chats/_js_index.js.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/chats/_js_show.js.erb" afterPath="$PROJECT_DIR$/app/views/chats/_js_show.js.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/chats/_members_list.html.erb" afterPath="$PROJECT_DIR$/app/views/chats/_members_list.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/layouts/application.html.erb" afterPath="$PROJECT_DIR$/app/views/layouts/application.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/application_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/application_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/chat.rb" afterPath="$PROJECT_DIR$/app/models/chat.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/chats_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/chats_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spec/requests/chats_spec.rb" afterPath="$PROJECT_DIR$/spec/requests/chats_spec.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/chats/edit.html.erb" afterPath="$PROJECT_DIR$/app/views/chats/edit.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/users/edit.html.erb" afterPath="$PROJECT_DIR$/app/views/users/edit.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/locales/en.yml" afterPath="$PROJECT_DIR$/config/locales/en.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/static_pages/home.html.erb" afterPath="$PROJECT_DIR$/app/views/static_pages/home.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/chats/index.html.erb" afterPath="$PROJECT_DIR$/app/views/chats/index.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/users/index.html.erb" afterPath="$PROJECT_DIR$/app/views/users/index.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/message.rb" afterPath="$PROJECT_DIR$/app/models/message.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/chats/new.html.erb" afterPath="$PROJECT_DIR$/app/views/chats/new.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/sessions/new.html.erb" afterPath="$PROJECT_DIR$/app/views/sessions/new.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/users/new.html.erb" afterPath="$PROJECT_DIR$/app/views/users/new.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/chats/refresh.html.erb" afterPath="$PROJECT_DIR$/app/views/chats/refresh.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/sessions_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/sessions_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/helpers/sessions_helper.rb" afterPath="$PROJECT_DIR$/app/helpers/sessions_helper.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/chats/show.html.erb" afterPath="$PROJECT_DIR$/app/views/chats/show.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/users/show.html.erb" afterPath="$PROJECT_DIR$/app/views/users/show.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/user.rb" afterPath="$PROJECT_DIR$/app/models/user.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/helpers/users_helper.rb" afterPath="$PROJECT_DIR$/app/helpers/users_helper.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="mychat.iws" />
@@ -74,7 +43,7 @@
       <file leaf-file-name=".gitignore" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="6" selection-start="521" selection-end="521" vertical-scroll-proportion="0.37126437" vertical-offset="0" max-vertical-offset="870">
+            <state line="17" column="0" selection-start="474" selection-end="474" vertical-scroll-proportion="0.3321839" vertical-offset="0" max-vertical-offset="870">
               <folding />
             </state>
           </provider>
@@ -909,7 +878,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="6" selection-start="521" selection-end="521" vertical-scroll-proportion="0.37126437" vertical-offset="0" max-vertical-offset="870">
+        <state line="17" column="0" selection-start="474" selection-end="474" vertical-scroll-proportion="0.3321839" vertical-offset="0" max-vertical-offset="870">
           <folding />
         </state>
       </provider>
