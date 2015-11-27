@@ -1,10 +1,13 @@
 $(document).ready(function(){
+    chat_name = '<%= @chat.name %>'
     is_current_user_owner = <%= @chat.owner? current_user %>
     chat_refresh_url = "<%= chat_path(@chat) + '/refresh/' %>"
     current_user_name = "<%= current_user.name %>"
     members_names = <%= @chat.members_names.to_s.html_safe %>
     reset_unread_msgs_url = "<%= chat_path(@chat) + '/reset_unread_msgs' %>"
     count_messages = <%= @chat.messages.count %>
+    confirm_message_with_rm = '<%= t :disconnect_confirm_with_rm %>'
+    confirm_message_def = '<%= @confirm_message_def %>'
 
 
     $(".chat").scrollTop($(".chat")[0].scrollHeight);
@@ -64,6 +67,13 @@ $(document).ready(function(){
                     scroll_down = true
                 }
                 $(".members_names").html('Members of chat: ' + result['members_list'])
+
+                if(chat_name != result["refresh_chat_name"])
+                {
+                    $(".chat table").append('<tr class="bot_message"><td></td><td>Chat name was changed to ' + result["refresh_chat_name"] + '</td><td></td></tr>')
+                    $("#chat_name").html(result["refresh_chat_name"]);
+                    chat_name = result["refresh_chat_name"]
+                }
 
 
                 if(result["html"])
@@ -135,6 +145,17 @@ $(document).ready(function(){
         if ($('#num_unread_msgs').html() > 0)
         {
             reset_unread_msgs()
+        }
+    });
+
+    $("#disconnect").click(function(){
+        if(members_names.length == 2)
+        {
+            return confirm(confirm_message_with_rm);
+        }
+        else
+        {
+            return confirm(confirm_message_def);
         }
     });
 

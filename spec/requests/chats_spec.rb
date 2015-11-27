@@ -79,7 +79,6 @@ describe "Chats" do
         				visit chats_path 
         			end
         			
-					# find('#item_description').should have_content("laptop for 369")
         			it { find('.tr_link#' + chat.id.to_s, text: "Second Message", exact: true) }
         			it { find('.tr_link#' + chat.id.to_s, text: "0", exact: true) }
         			it { find('.tr_link#' + chat.id.to_s, text: user.name_cptlz, exact: true) }

@@ -29,9 +29,7 @@ class Chat < ActiveRecord::Base
       @unexists_users = Array.new
       @chat_users = Array.new
 
-
       @members.delete_if do |member_id|
-
         if User.find_by id: member_id
           @chat_users << member_id
           false
@@ -43,7 +41,6 @@ class Chat < ActiveRecord::Base
 
       @chat_users.uniq!
       @unexists_users.uniq!
-
     end
 
     def members_names
@@ -52,7 +49,7 @@ class Chat < ActiveRecord::Base
 
     def get_members
       chatusers.inject(Array.new) do |list_names, chat_user|
-        list_names.push chat_user.user.name.capitalize
+        list_names.push chat_user.user.name_cptlz
       end
     end
 
@@ -73,7 +70,6 @@ class Chat < ActiveRecord::Base
 	  		
 
   			chatusers.each do |chat_user|
-
   				if !@chat_users.include?(chat_user.id) && self[:user_id] != chat_user.id
   					chat_user.destroy
   				end

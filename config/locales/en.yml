@@ -21,6 +21,10 @@
 
 en:
   hello: "Hello world"
+  disconnect_confirm_with_rm: ' This action will remove this chat.\n
+                              This is because you are one of only two members.\n
+                              All existing chat rooms must have at least two members.\n
+                              Are you sure you want to disconnect and remove this chat ?'
   activerecord:
     attributes:
       chat:

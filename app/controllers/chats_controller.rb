@@ -19,7 +19,7 @@ class ChatsController < ApplicationController
       num_unread_msgs = Chatuser.find_by(chat_id: params[:id], user_id: current_user.id).num_unread_msgs
       respond_to do |format|
         format.json {render json: {exit: false, message_text: last_message.text, author_name: last_message.user.name_cptlz,
-                                   message_id: last_message.id, num_unread_msgs: num_unread_msgs, refresh_chat_ids: access_chats }}
+          message_id: last_message.id, num_unread_msgs: num_unread_msgs, refresh_chat_ids: access_chats }}
       end
     else
       respond_to do |format|
@@ -31,7 +31,6 @@ class ChatsController < ApplicationController
 
   def show
     if Chatuser.find_by(chat_id: params[:id], user_id: current_user.id)
-    	#@chat = Chat.find_by(id: params[:id])
       @num_unread_msgs = @chat.chatusers.where(user_id: current_user.id).first.num_unread_msgs.to_s
       @message = Message.new
       @members = members_list(params[:id])
@@ -47,11 +46,13 @@ class ChatsController < ApplicationController
   def refresh
     @messages = Message.where(chat_id: params[:id]).order(id: :asc).offset(params[:offset])
     if @messages && Chatuser.find_by(chat_id: params[:id], user_id: current_user.id)
+      @chat = Chat.find(params[:id])
       render json: { html: render_to_string('refresh', layout: false),
                      num_unread_msgs: current_user.chats.find_by(chat_id: params[:id]).num_unread_msgs,
                      all_messages_count: @messages.count,
                      read_messages_count: Chatuser.where(chat_id: params[:id]).minimum(:num_unread_msgs),
-                     refresh_members_names: Chat.find(params[:id]).members_names,
+                     refresh_members_names: @chat.members_names,
+                     refresh_chat_name: @chat.name,
                      members_list: render_to_string(partial: 'members_list', locals: {members: members_list(params[:id])})
       }
     end
@@ -67,7 +68,7 @@ class ChatsController < ApplicationController
   def create_message
     @message = Message.new(chat_id: params[:id], user_id: current_user.id, text: params[:message][:text])
     @message.chat.chatusers.where(user_id: current_user.id).update_all(num_unread_msgs: 0)
-    @message.chat.chatusers.where("user_id != ?", current_user.id).update_all("num_unread_msgs = num_unread_msgs + 1")
+    @message.chat.chatusers.where('user_id != ?', current_user.id).update_all('num_unread_msgs = num_unread_msgs + 1')
     @message.save
     render nothing: true
   end
@@ -95,17 +96,14 @@ class ChatsController < ApplicationController
   	else
   		render 'new'
   	end
-
   end
 
 
   def edit
-      #@chat = Chat.find_by(id: params[:id])
       redirect_to root_path if @chat.user_id != current_user.id 
   end
 
   def update
-    #@chat = Chat.find_by(id: params[:id])
     @chat.name = params[:chat][:name]
     @chat.members = params[:chat][:members]
     @chat.members_transform(params[:chat][:members], current_user.id)
@@ -122,14 +120,6 @@ class ChatsController < ApplicationController
     redirect_to chats_path
   end
 
-  def test
-    @user = User.find_by(id: 1)
-    # Chat.find_by(id: 6).chatusers.build(user_id: 2).save
-    # @user.chats.first.chat.messages.first.update(user_id: @user.id, text: "hello, this is my message")
-    # @user.chats.first.chat.update(user_id: 3)
-    @test = @user
-  end
-
   private
 
     def is_member?
@@ -143,12 +133,7 @@ class ChatsController < ApplicationController
 
     def foreign_disconnection
       render text: 'removed' and return unless Chat.find_by id: params[:id]
-      render text: 'disconnected' and return unless Chatuser.find_by(chat_id: params[:id], user_id: current_user.id)
+      render text: 'disconnected' and return unless Chatuser.find_by chat_id: params[:id], user_id: current_user.id
     end
-
-    def foreign_connection
-      #render text: 'connected' and return if
-    end
-
 
 end

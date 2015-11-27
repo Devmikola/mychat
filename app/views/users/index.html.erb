@@ -6,8 +6,7 @@
 <ul class="users">
   <% @users.each do |user| %>
 	<li>
-      <% user.online? ? icon = 'Status-user-online-icon.png' : icon = 'Status-user-busy-icon.png' %>
-      <%= image_tag icon %>
+      <%= status_icon user.online? %>
 	  <%= link_to user.name.capitalize, user %>
       <%= 'id: ' + user.id.to_s %>
 

@@ -1,8 +1,4 @@
 <% members.each do |member| %>
-    <% if member[:is_online] %>
-        <%= image_tag 'Status-user-online-icon.png', title: 'online'%>
-    <% else %>
-        <%= image_tag 'Status-user-busy-icon.png', title: 'offline'%>
-    <% end %>
+    <%= status_icon member[:is_online]%>
     <%= member[:name] %>
 <% end %>

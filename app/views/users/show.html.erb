@@ -1,6 +1,6 @@
 <% provide(:title, @user.name_cptlz) %>
 <h1> <%= @user.name_cptlz %></h1>
-<h4> With us from: <%= @user.created_at.strftime("%d %b %Y") %> </h4>
+<h4> With us from: <%= @user.created_at.strftime('%d %b %Y') %> </h4>
 <h4> <%= @user.owning_chats.count %> created chats </h4>
 <h4> <%= @user.chats.count %> chats member</h4>
 <h4> <%= @user.messages.count %> posted messages</h4>

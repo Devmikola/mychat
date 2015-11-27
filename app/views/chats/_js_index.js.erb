@@ -3,6 +3,7 @@ $(document).ready(function(){
     chats_owner = <%= @owning_chats %> // ids of chats who owner is current user
     chats_ids = <%= @access_chats.map(&:chat_id) %> // ids of accessed chats which listed at opened page
     all_chats_ids = <%= @all_access_chats %> // ids of all accessed chats
+    chats_path = '<%= chats_path %>'
 
     function array_include(f_array, s_array)
     {
@@ -22,13 +23,13 @@ $(document).ready(function(){
                         {
                             alert('You are connected to new chat room.')
                             all_chats_ids = result['refresh_chat_ids']
-                            document.location = '<%= chats_path %>'
+                            document.location = chats_path
                         }
                         else if (result == 'disconnected')
                         {
                             chat_name = $(".tr_link#" + chat_id + " td.chat_name").html()
                             alert('You are disconnected from the chat room ' + chat_name)
-                            document.location = '<%= chats_path %>'
+                            document.location = chats_path
                         }
                         else if (result == 'removed')
                         {
@@ -39,7 +40,7 @@ $(document).ready(function(){
                                 add_allert = 'We are very sorry. Last member of chat ' + chat_name + ' has left from the chat room.\n';
                             }
                             alert(add_allert + 'Chat room ' + chat_name + ' has been removed.\nRedirecting to active chats.')
-                            document.location = '<%= chats_path %>'
+                            document.location = chats_path
                         }
                         else if(!result.exit)
                         {

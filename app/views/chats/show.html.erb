@@ -1,5 +1,5 @@
 <% provide(:title, "Chat #{@chat.name}") %>
-<h1> <%= "Chat #{@chat.name}" %> </h1>
+<h1 id="chat_name"> <%= "Chat #{@chat.name}" %> </h1>
 <h4 class="chat_administrator">
   <%= "Administrator: #{@chat.owner.name_cptlz}" %>
 </h4>
@@ -9,18 +9,9 @@
 </h4>
 <h4> <span id="num_unread_msgs"> <%= @num_unread_msgs %> </span> <%= ' unread messages' %> </h4>
 
-<%
-    if @chat.chatusers.count == 2
-    confirm_message = 'This action will remove this chat.
-This is because you are one of only two members.
-All existing chat rooms must have at least two members.
-Are you sure you want to disconnect and remove this chat ?'
-    else
-    confirm_message = "Are you sure you want to disconnect from #{@chat.name} ?"
-    end
-%>
+<% @confirm_message_def = "Are you sure you want to disconnect from #{@chat.name} ?" %>
 
-<%= link_to 'Disconnect', self_disconnection_chat_path(@chat), data: { confirm: confirm_message } unless @chat.owner? current_user %>
+<%= link_to 'Disconnect', self_disconnection_chat_path(@chat), id: 'disconnect' unless @chat.owner? current_user %>
 <%= link_to 'Edit chat', edit_chat_path(@chat) if @chat.owner? current_user %>
 
 <div id="ext_tbl_chat">
@@ -43,10 +34,8 @@ Are you sure you want to disconnect and remove this chat ?'
     </div>
 	<%= form_for @message, url: chat_path(@chat.id) + '/create_message', remote: true do |f| %>
       <% mobile? ? display = '' : display = 'display_none' %>
-      <div style="height: 100%;">
           <%= f.text_area :text, placeholder: 'Type message. To send message, use Ctrl + Enter.', rows: 3 %>
           <%= f.submit 'Send message', class: "btn btn-large btn-primary #{display}", id: 'send_message' %>
-      </div>
 	<% end %>
 </div>
 <script>
